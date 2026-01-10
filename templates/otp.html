@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter OTP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-card">
+<h2>Enter OTP</h2>
+
+<form method="POST">
+    <div class="input-wrapper">
+    <div class="form-group">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label for="otp">One-Time Password (OTP)</label>
+    <input type="text" name="otp" placeholder="Enter 6-digit OTP" required> 
+    </div>
+    </div>
+    <button class="btn login-btn" type="submit">Verify OTP</button>
+</form>
+
+    </div>
+</div>
+</body>
+</html>

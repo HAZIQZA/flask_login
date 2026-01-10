@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h2>Welcome, {{ user }}</h2>
+    <p>This is a protected page.</p>
+    <a href="/logout">Logout</a>
+
+    <script>
+        const expiresAt = {{ expires_at | tojson }};
+
+        if (expiresAt !== null) {
+            const now = Math.floor(Date.now() / 1000);
+            const timeLeft = expiresAt - now;
+
+            if (timeLeft > 0) {
+                setTimeout(() => {
+                    alert("Session expired. Redirecting to login.");
+                    window.location.href = "/login";
+                }, timeLeft * 1000);
+            } else {
+                window.location.href = "/login";
+            }
+        }
+    </script>
+
+<form method="POST" action="/delete_account" class="delete-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit" class="delete-btn">
+        Delete My Account
+    </button>
+</form>
+
+</body>
+</html>

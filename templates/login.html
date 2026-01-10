@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-card">
+
+        <div class="login-header">
+            <h2>Welcome Back</h2>
+            <p>Sign in to your account</p>
+        </div>
+
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <p class="uname_color">Username</p>
+                    <input type="text" name="username" required>
+                    <span class="focus-border"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <p class="uname_color">Password</p>
+                    <input type="password" name="password" required>
+                    <span class="focus-border"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn login-btn">
+                Sign In
+            </button>
+
+        </form>
+
+        <div class="signup-link">
+            <p>Don't have an account?
+                <a href="{{ url_for('register') }}">Sign up</a>
+            </p>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
