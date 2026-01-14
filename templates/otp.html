@@ -1,27 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Enter OTP</title>
+    <meta charset="UTF-8">
+    <title>OTP Verification</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
 <div class="login-container">
     <div class="login-card">
-<h2>Enter OTP</h2>
 
-<form method="POST">
-    <div class="input-wrapper">
-    <div class="form-group">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <label for="otp">One-Time Password (OTP)</label>
-    <input type="text" name="otp" placeholder="Enter 6-digit OTP" required> 
-    </div>
-    </div>
-    <button class="btn login-btn" type="submit">Verify OTP</button>
-</form>
+        <div class="login-header">
+            <h2>Verify OTP</h2>
+            <p>Enter the 6-digit OTP sent to your email</p>
+        </div>
+
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <p class="uname_color">OTP</p>
+                    <input type="text" name="otp" maxlength="6" required>
+                    <span class="focus-border"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn login-btn">
+                Verify
+            </button>
+        </form>
 
     </div>
 </div>
+
 </body>
 </html>

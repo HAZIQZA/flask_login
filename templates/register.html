@@ -12,57 +12,59 @@
 
         <div class="login-header">
             <h2>Create Account</h2>
-            <p>Register a new account</p>
+            <p>Register a new secure account</p>
         </div>
 
         <form method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-
+            <!-- USERNAME    -->
             <div class="form-group">
                 <div class="input-wrapper">
                     <p class="uname_color">Username</p>
-                    <input type="text" name="username" placeholder="" required>
+                    <input type="text" name="username" required>
                     <span class="focus-border"></span>
                 </div>
             </div>
 
+            <!-- EMAIL -->
             <div class="form-group">
                 <div class="input-wrapper">
                     <p class="uname_color">Email</p>
-                    <input type="email" name="email"required>
+                    <input type="email" name="email" required>
                     <span class="focus-border"></span>
                 </div>
             </div>
 
+            <!-- PASSWORD -->
             <div class="form-group">
                 <div class="input-wrapper">
                     <p class="uname_color">Password</p>
-                    <input type="password" name="password" id="password" placrequired>
+                    <input type="password" name="password" id="password" required>
                     <p id="passwordHelp"></p>
 
-<script>
-    const passwordInput = document.getElementById("password");
-    const helpText = document.getElementById("passwordHelp");
+                    <script>
+                        const passwordInput = document.getElementById("password");
+                        const helpText = document.getElementById("passwordHelp");
 
-    passwordInput.addEventListener("input", () => {
-        const value = passwordInput.value;
+                        passwordInput.addEventListener("input", () => {
+                            const value = passwordInput.value;
 
-        if (value.length < 8) {
-            helpText.textContent = "Password too short";
-        } else if (!/[A-Z]/.test(value)) {
-            helpText.textContent = "Add an uppercase letter";
-        } else if (!/[a-z]/.test(value)) {
-            helpText.textContent = "Add a lowercase letter";
-        } else if (!/[0-9]/.test(value)) {
-            helpText.textContent = "Add a number";
-        } else if (!/[!@#$%^&*(),.?\":{}|<>]/.test(value)) {
-            helpText.textContent = "Add a special character";
-        } else {
-            helpText.textContent = "Strong password ✅";
-        }
-    });
-</script>
+                            if (value.length < 8) {
+                                helpText.textContent = "Password too short";
+                            } else if (!/[A-Z]/.test(value)) {
+                                helpText.textContent = "Add an uppercase letter";
+                            } else if (!/[a-z]/.test(value)) {
+                                helpText.textContent = "Add a lowercase letter";
+                            } else if (!/[0-9]/.test(value)) {
+                                helpText.textContent = "Add a number";
+                            } else if (!/[!@#$%^&*(),.?\":{}|<>]/.test(value)) {
+                                helpText.textContent = "Add a special character";
+                            } else {
+                                helpText.textContent = "Strong password ✅";
+                            }
+                        });
+                    </script>
+
                     <span class="focus-border"></span>
                 </div>
             </div>
@@ -70,7 +72,6 @@
             <button type="submit" class="btn login-btn">
                 Sign Up
             </button>
-
         </form>
 
         <div class="signup-link">

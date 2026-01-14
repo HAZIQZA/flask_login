@@ -1,0 +1,14 @@
+{
+    "dev": {
+        "app_function": "web.app",
+        "aws_region": "ap-south-1",
+        "profile_name": "default",
+        "project_name": "flaskpr1",
+        "runtime": "python3.12",
+        "s3_bucket": "zappa-deploy-storage-12345",
+        "environment_variables": {
+            "EMAIL_USER": "abdulsalihaslah@gmail.com",
+            "EMAIL_PASS": "cttbkrfuqltrjrke"
+        }
+    }
+}

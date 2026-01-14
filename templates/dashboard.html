@@ -1,39 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <h2>Welcome, {{ user }}</h2>
-    <p>This is a protected page.</p>
-    <a href="/logout">Logout</a>
 
-    <script>
-        const expiresAt = {{ expires_at | tojson }};
+<div class="login-container">
+    <div class="login-card">
 
-        if (expiresAt !== null) {
-            const now = Math.floor(Date.now() / 1000);
-            const timeLeft = expiresAt - now;
+        <div class="login-header">
+            <h2>Hello, {{ user }}</h2>
+            <p>Welcome to your dashboard</p>
+        </div>
 
-            if (timeLeft > 0) {
-                setTimeout(() => {
-                    alert("Session expired. Redirecting to login.");
-                    window.location.href = "/login";
-                }, timeLeft * 1000);
-            } else {
-                window.location.href = "/login";
-            }
-        }
-    </script>
 
-<form method="POST" action="/delete_account" class="delete-form">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <button type="submit" class="delete-btn">
-        Delete My Account
-    </button>
-</form>
+        <div class="form-group">
+            <form method="POST" action="{{ url_for('delete_account') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="btn login-btn" style="background:#d9534f;">
+                    Delete Account
+                </button>
+            </form>
+        </div>
+
+        <div class="signup-link">
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+
+    </div>
+</div>
 
 </body>
 </html>
+
