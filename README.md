@@ -95,7 +95,7 @@ This project uses **environment variables** for sensitive data.
 ```
 EMAIL_USER=
 EMAIL_PASS=
-FLASK_SECRET=supersecretkey
+FLASK_SECRET="supersecretkey"
 ```
 
 ### 🔹 Notes:
