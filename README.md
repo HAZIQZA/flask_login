@@ -177,15 +177,6 @@ http://<your-local-ip>:5000
 
 ---
 
-## 📌 Notes for Evaluators / Reviewers
-
-* Email functionality is optional by design
-* Console-based OTP is intentional for safe local testing
-* No cloud services are required
-* Code follows best practices for secret management
-
----
-
 ## 🧹 Ignored Files
 
 The following are intentionally excluded from version control:
