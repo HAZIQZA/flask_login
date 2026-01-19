@@ -1,155 +1,210 @@
-#  Secure Flask Authentication System  
-A fully secure, production-ready authentication system built using **Flask**, **AWS DynamoDB**, **Flask-Mail**, and **Zappa (AWS Lambda)**.  
-This project includes:
+# Secure Flask Authentication System
 
-- ✔ User Registration  
-- ✔ Email Verification (secure token link)  
-- ✔ Login using Username or Email  
-- ✔ OTP-based two-factor authentication  
-- ✔ Password hashing  
-- ✔ CSRF protection  
-- ✔ Rate limiting (anti-bruteforce)  
-- ✔ No-cache security headers  
-- ✔ Serverless DynamoDB database  
-- ✔ Deployment on AWS Lambda using Zappa  
+A secure Flask-based authentication system implementing:
+
+* User registration
+* Email verification
+* OTP-based login
+* Rate limiting
+* Password strength validation
+
+This project is designed to run **locally on any machine** and is **safe to publish on GitHub**.
+No cloud services or credentials are required to run the core functionality.
 
 ---
 
-##  Features
+## 🚀 Features
 
-###  1. **User Registration**
-- Strong password validation  
-- Unique username + email  
-- Email verification token sent through Gmail SMTP
-
-###  2. **Email Verification**
-- User receives a secure token link  
-- Account activated only after verification
-
-###  3. **Secure Login**
-- Login using *username OR email*  
-- Password verified using hashed storage  
-- Only verified users can log in
-
-###  4. **OTP (One-Time Password)**
-- 6-digit secure OTP generated using `secrets`  
-- OTP expires in 5 minutes  
-- Sent directly to the user’s email  
-- Adds an extra security layer
-
-###  5. **Security Controls**
-- CSRF tokens for all forms  
-- Rate limiting on login & register routes  
-- No-cache headers prevent “back button” session leaks  
-- Session cookies are HttpOnly and SameSite protected  
-- Environment variables for secrets (never stored in code)
-
-###  6. **Serverless DynamoDB**
-- Fully persistent NoSQL database  
-- No need to upload SQLite files  
-- Accessible from AWS Lambda across deployments
-
-###  7. **Zappa + AWS Lambda Deployment**
-- Zero server maintenance  
-- Auto-scaling  
-- API Gateway hosted endpoints  
-- Perfect for free-tier usage
+* User registration with strong password enforcement
+* Email verification using a token
+* OTP-based login authentication
+* Rate limiting to prevent brute-force attacks
+* CSRF protection
+* Secure password hashing
+* SQLite database (auto-created)
+* Development-safe mode (works even without email credentials)
 
 ---
 
-##  Project Structure
+## 📂 Project Structure
 
-.
-│── app.py # Main Flask application
-│── templates/
-│ ├── login.html
-│ ├── register.html
-│ ├── otp.html
-│ └── dashboard.html
-│── static/
-│ └── style.css
-│── zappa_settings.json # AWS Lambda deployment config
-│── README.md # Documentation
-
-
----
-
-##  Environment Variables Required
-
-These must be added in AWS Lambda (Configuration → Environment Variables):
-
-| Variable | Purpose |
-|---------|---------|
-| `EMAIL_USER` | Gmail address used for sending emails |
-| `EMAIL_PASS` | Gmail App Password |
-| `AWS_REGION` | Region of DynamoDB Table (e.g., `ap-south-1`) |
-
-You must also enable Gmail **App Passwords**.
+```
+project/
+│
+├── web.py                # Main Flask application
+├── requirements.txt      # Python dependencies
+├── README.md             # Project documentation
+├── .gitignore            # Ignored files
+│
+├── templates/            # HTML templates
+│   ├── login.html
+│   ├── register.html
+│   ├── otp.html
+│   └── dashboard.html
+│
+├── static/               # CSS / JS files (if any)
+│
+└── users.db              # SQLite database (auto-created, not committed)
+```
 
 ---
 
-##  DynamoDB Table Structure
+## 🛠️ Requirements
 
-Table name: **Users**
-
-| Key | Type | Description |
-|-----|------|-------------|
-| `username` | STRING (Partition Key) | Unique username |
-| `email` | STRING | Must be unique |
-| `password` | STRING | Hashed password |
-| `verification_token` | STRING | For email verification |
-| `is_verified` | BOOLEAN | User must verify email |
-| `otp` | STRING | Temporary OTP |
-| `otp_expiry` | NUMBER | UNIX timestamp |
+* Python **3.9+**
+* pip
+* Internet connection (only if email sending is enabled)
 
 ---
 
-## ▶ Local Development
+## 📦 Installation & Setup
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone <your-github-repo-url>
+cd <project-folder>
+```
+
+---
+
+### 2️⃣ Create a Virtual Environment (Recommended)
 
 ```bash
 python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python app.py
-
-
-Visit:
-
-http://127.0.0.1:5000
-
-☁ Deploying to AWS Lambda (Zappa)
-1️ Install Zappa
-pip install zappa
-
-2️ Initialize Zappa
-zappa init
-
-3️ Deploy
-zappa deploy dev
-
-4️ Update
-zappa update dev
-
- Security Features Summary
-============================
-Feature	Description
-CSRF Protection	Prevents cross-site request forgery
-Password Hashing	Uses Werkzeug hashing
-Rate Limiting	Stops brute-force attacks
-OTP	Second factor authentication
-No Cache Headers	Prevents back-button access after logout
-HttpOnly Cookies	JS cannot read session cookies
-
-
- License
-=============
-MIT License
-You may use and modify this project.
-
-Author:-
-aslah ap
+source venv/bin/activate   # Linux / macOS
+venv\Scripts\activate      # Windows
 ```
 
+---
 
-![Alt text](https://github.com/HAZIQZA/flask_login/blob/main/Screenshot%202026-01-15%20000100.png)
+### 3️⃣ Install Dependencies
 
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 🔐 Environment Variables (IMPORTANT)
+
+This project uses **environment variables** for sensitive data.
+
+### Create a `.env` file in the project root:
+
+```
+EMAIL_USER=
+EMAIL_PASS=
+FLASK_SECRET=supersecretkey
+```
+
+### 🔹 Notes:
+
+* `.env` is **NOT included in GitHub** (for security)
+* Each user must create their own `.env`
+* Email credentials are **optional**
+
+---
+
+## ✉️ Email Behavior (Very Important)
+
+### ✅ If EMAIL credentials are provided:
+
+* Verification links and OTPs are sent via email
+
+### ✅ If EMAIL credentials are NOT provided:
+
+* Verification links and OTPs are printed in the **console**
+* The application still works normally
+
+This design ensures:
+
+* The project runs on **any machine**
+* No credentials are required for testing
+* Safe for GitHub and academic evaluation
+
+---
+
+## ▶️ Running the Application
+
+```bash
+python web.py
+```
+
+The server will start on:
+
+```
+http://localhost:5000
+```
+
+To access from another device on the same network:
+
+```
+http://<your-local-ip>:5000
+```
+
+---
+
+## 🧪 Application Flow
+
+1. Register a new account
+2. Receive verification link (email or console)
+3. Verify email
+4. Login using username/email + password
+5. Receive OTP (email or console)
+6. Enter OTP to access dashboard
+
+---
+
+## 🗄️ Database
+
+* Uses **SQLite**
+* Database file (`users.db`) is created automatically
+* No manual setup required
+* Database file is ignored by Git
+
+---
+
+## 🛡️ Security Measures Implemented
+
+* Password hashing (Werkzeug)
+* Strong password enforcement
+* CSRF protection
+* Rate limiting
+* OTP expiration
+* Session protection
+* No hardcoded credentials
+
+---
+
+## 📌 Notes for Evaluators / Reviewers
+
+* Email functionality is optional by design
+* Console-based OTP is intentional for safe local testing
+* No cloud services are required
+* Code follows best practices for secret management
+
+---
+
+## 🧹 Ignored Files
+
+The following are intentionally excluded from version control:
+
+```
+.env
+users.db
+venv/
+__pycache__/
+```
+
+---
+
+## 📜 License
+
+This project is intended for educational and demonstration purposes.
+
+---
+
+## 👨‍💻 Author
+
+Developed as part of a cybersecurity and secure application development practice project.
